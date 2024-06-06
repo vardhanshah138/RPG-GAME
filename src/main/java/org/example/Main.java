@@ -1,19 +1,31 @@
 package org.example;
 
-// Press Shift twice to open the Search Everywhere dialog and type `show whitespaces`,
-// then press Enter. You can now see whitespace characters in your code.
+import org.example.models.Character;
+import org.example.models.Enemy;
+import org.example.models.Player;
+import org.example.models.Room;
+
+import java.util.ArrayList;
+import java.util.List;
+
 public class Main {
     public static void main(String[] args) {
-        // Press Alt+Enter with your caret at the highlighted text to see how
-        // IntelliJ IDEA suggests fixing it.
         System.out.printf("Hello and welcome!");
 
-        // Press Shift+F10 or click the green arrow button in the gutter to run the code.
-        for (int i = 1; i <= 5; i++) {
+        Enemy zombie = new Enemy("Zombie", 50);
+        Enemy whiteWalker = new Enemy("White walker", 50);
+        Enemy alien = new Enemy("Alien", 50);
+        Enemy akatsuki = new Enemy("Akatsuki", 50);
 
-            // Press Shift+F9 to start debugging your code. We have set one breakpoint
-            // for you, but you can always add more by pressing Ctrl+F8.
-            System.out.println("i = " + i);
-        }
+        List<Character> cityRoomEnemies = new ArrayList<>();
+        cityRoomEnemies.add(zombie);
+        cityRoomEnemies.add(alien);
+        Room room = new Room("City", cityRoomEnemies);
+        Player vardhan = new Player("Vardhan",100);
+
+        System.out.println("The enemies in the room city. " + room.getRoomMembers());
+        room.getRoomMembers().get(0).setHealth(20);
+        System.out.println(zombie.getHealth());
+
     }
 }
