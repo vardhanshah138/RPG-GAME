@@ -24,7 +24,8 @@ public class Main {
         Player vardhan = new Player("Vardhan",100);
 
         System.out.println("The enemies in the room city. " + room.getRoomMembers());
-        room.getRoomMembers().get(0).setHealth(20);
+        vardhan.attack(room.getRoomMembers().get(0));
+        room.getRoomMembers().get(0).attack(vardhan);
         System.out.println(zombie.getHealth());
 
     }
