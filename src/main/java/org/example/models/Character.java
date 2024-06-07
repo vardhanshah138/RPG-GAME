@@ -10,7 +10,7 @@ public abstract class Character {
     public Character(String name, int health) {
         this.name = name;
         this.health = health;
-        this.fistPower = 0;
+        this.fistPower = 10;
         this.isAlive = true;
     }
 
@@ -65,5 +65,7 @@ public abstract class Character {
     public void setFistPower(int fistPower) {
         this.fistPower = fistPower;
     }
-
+    public boolean isAlive() {
+        return isAlive;
+    }
 }
