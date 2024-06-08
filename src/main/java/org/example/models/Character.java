@@ -47,14 +47,21 @@ public abstract class Character {
         this.health = health;
     }
 
-    private void reduceHealth(int damage){//if we won't make it private then player can reduce health without attacking
-
+    public void reduceHealth(int damage){//if we won't make it private then player can reduce health without attacking
+        System.out.println("The " + name + " health has been reduced by " + damage);
         if(damage > 0){
             this.health = health - damage;
             if(health <= 0){
                 System.out.println("The " + this.name + " is dead.");
                 this.isAlive = false;
             }
+        }
+    }
+
+    public void increaseHealth(int medicine){
+        System.out.println("The " + this.name + " health has been increased by " + health);
+        if(medicine > 0){
+            setHealth(health + medicine);
         }
     }
 
