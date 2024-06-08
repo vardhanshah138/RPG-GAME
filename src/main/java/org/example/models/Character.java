@@ -22,12 +22,12 @@ public abstract class Character {
     }
 
     public void attack(Character character){
-        System.out.println("The " + this.name + "attack on " + character.getName());
+        System.out.println("The " + this.name + " attack on " + character.getName());
         if(this.isAlive){
             System.out.println("The " + this.name + " attacked on " + character.getName() + "with fist");
             character.reduceHealth(this.fistPower);
         }else{
-            System.out.println("You're not alive to attack.");
+            System.out.println(name + " is not alive to attack.");
         }
     }
 
