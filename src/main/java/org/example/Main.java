@@ -1,9 +1,7 @@
 package org.example;
 
+import org.example.models.*;
 import org.example.models.Character;
-import org.example.models.Enemy;
-import org.example.models.Player;
-import org.example.models.Room;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,13 +17,9 @@ public class Main {
         Enemy alien = new Enemy("Alien", 50);
         Enemy akatsuki = new Enemy("Akatsuki", 50);
 
-        List<Character> cityRoomEnemies = new ArrayList<>();
-        cityRoomEnemies.add(zombie);
-        cityRoomEnemies.add(alien);
-        Room room = new Room("City", cityRoomEnemies);
+        Room room = new Room("City");
+        room.addEnemy(zombie);
         Player vardhan = new Player("Vardhan",100);
-
-        System.out.println("The enemies in the room city. " + room.getRoomMembers());
 
         while(vardhan.isAlive() && zombie.isAlive()){
             System.out.println("Press 1 to attack.");
@@ -34,9 +28,14 @@ public class Main {
             }
             zombie.attack(vardhan);
         }
-        vardhan.attack(room.getRoomMembers().get(0));
-        room.getRoomMembers().get(0).attack(vardhan);
-        System.out.println(zombie.getHealth());
 
+        //Item in the room test.
+        Key key = new Key("Key");
+        Poison poison = new Poison("Sulphur acid",5);
+        Potion potion = new Potion("Medicine", 10);
+        room.addItem(key);
+        room.addItem(poison);
+        room.addItem(potion);
+        room.printRoomElements();
     }
 }
