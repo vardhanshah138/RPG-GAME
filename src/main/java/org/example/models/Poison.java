@@ -1,8 +1,8 @@
 package org.example.models;
 
 public class Poison extends Drink{
-    public Poison(int power) {
-        super(power);
+    public Poison(String name, int power) {
+        super(name, power);
     }
 
     @Override

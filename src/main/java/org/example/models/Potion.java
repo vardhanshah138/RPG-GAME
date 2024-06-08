@@ -2,8 +2,8 @@ package org.example.models;
 
 public class Potion extends Drink{
 
-    public Potion(int power) {
-        super(power);
+    public Potion(String name,int power) {
+        super(name, power);
     }
 
     @Override
