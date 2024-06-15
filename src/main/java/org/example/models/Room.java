@@ -33,17 +33,14 @@ public class Room {
 
     public void addEnemy(Enemy enemy){
         roomMembers.add(enemy);
-        System.out.println("Added enemy " + enemy.getName());
     }
     public void addItem(Item item){
         items.add(item);
-        System.out.println("Added item " + item.getName());
     }
 
     public void removeItem(Item item){
         if(items.contains(item)){
             items.remove(item);
-            System.out.println("Removed item " + item.getName());
         }else {
             System.out.println("The item " + item.getName()  + " is not present");
         }
