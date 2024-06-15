@@ -11,44 +11,109 @@ import java.util.List;
 import java.util.Scanner;
 
 public class Main {
-    public static void main(String[] args) {
+    public static Scanner sc =new Scanner(System.in);
 
-        Scanner sc =new Scanner(System.in);
-        Player vardhan = new Player("Vardhan",100, 5, "I am Vardhan Shah from Surat great fighter and coder.");
+    public static void main(String[] args) {
+        Player vardhan = new Player("Vardhan",100, 15, "I am Vardhan Shah from Surat great fighter and coder.");
         //Room initalization
         List<Room> rooms = prepareRooms();
 
-        while (vardhan.isAlive()){
+        while (vardhan.isAlive() && vardhan.getBag().stream().noneMatch(item -> item instanceof Key)){
             System.out.println("Select room to enter.");
             Room currRoom = printAndSelectRoom(rooms);
             currRoom.printRoomElements();
 
             int attackResponse = runOrFight();
-
-            if(attackResponse == 1){//run
-                //continue
-            } else if (attackResponse == 2) {
+            BattleResult battleResult = null;
+            if(attackResponse == 2){//run
+                continue;
+            } else if (attackResponse == 1) {
                 //battle.
                 Enemy enemy = currRoom.getEnemies().get(0);
-
+                battleResult= battle(vardhan, enemy);
             }else {
-                //quit
+                break;
+            }
+
+            if(battleResult == BattleResult.LOSE){
+                System.out.println("The player is dead now");
+                break;
+            } else if (battleResult == BattleResult.WIN) {
+                currRoom.removeEnemy(currRoom.getEnemies().get(0));
+                System.out.println("The enemy is dead now");
+            }else {
+                continue;
             }
 
         }
+
+        if(vardhan.getBag().stream().anyMatch(item -> item instanceof Key)){
+            System.out.println("Congratulations you win the game");
+        }else {
+            System.out.println("GAME OVER");
+        }
+    }
+
+    public static void interactWithGuardianIfPresent(){
+
+    }
+    public static void collectItemFromRoom(Room room, Player player) {
+        room.printRoomElements();
+        System.out.println("Please Enter index to pick item or -1 to leave room");
+        int i = sc.nextInt();
+
+        while (i >= 0 && i < room.getItems().size()){
+            Item item = room.getItems().get(i);
+            if(item.getClass().equals(Poison.class)){
+                player.consumeDrink((Drink) item);
+            }else if(item instanceof Treasure){
+                player.setExperiencePoints(player.getExperiencePoints() + ((Treasure) item).getPoints());
+            }else {
+                player.addItemInBag(item);
+            }
+            room.removeItem(item);
+            i = sc.nextInt();
+        }
+    }
+    public static void consumePotionFromBag(Player player) {
+        System.out.println("Select potion from bag.");
+        List<Item> bag = player.getBag();
+        for(Item item : bag){
+            if(item.getType().equals(ItemType.DRINK)){
+                System.out.println(bag.indexOf(item) + item.getName());
+            }
+        }
+        System.out.println("Enter your response:-");
+        int w = sc.nextInt();
+        if(w == -1){
+            return;
+        }
+        while (w >= 0 && w < bag.size()){
+            System.out.println("Please enter correct index");
+            w = sc.nextInt();
+        }
+        Item item = bag.get(w);
+        player.consumeDrink((Drink) item);
+        player.removeItemFromBag(item);
     }
 
     public static Weapon selectWeaponFromBag(Player player) {
+        System.out.println("Select weapon from bag based on 0 index");
         List<Item> bag = player.getBag();
         for(Item item : bag){
             if(item.getType().equals(ItemType.WEAPON)){
-                return (Weapon) item;
+                System.out.println(bag.indexOf(item) + item.getName());
             }
         }
-        return null;
+        System.out.println("Enter your response:-");
+        int w = sc.nextInt();
+        while (w >=0 && w < bag.size()){
+            System.out.println("Please enter correct index");
+            w = sc.nextInt();
+        }
+        return (Weapon) bag.get(w);
     }
     public static BattleResult battle(Player player, Enemy enemy){
-        Scanner sc = new Scanner(System.in);
         while (player.isAlive() && enemy.isAlive()){
             player.printCurrStats();
             System.out.println("1. Attack");
@@ -59,19 +124,29 @@ public class Main {
 
             if(response == 3){
                 return BattleResult.RUN;
-            } else if (response == 2) {
+            } else if (response == 1) {
                 player.attack(enemy);
-            }else if(response == 1) {
+            }else if(response == 2) {
                 Weapon weapon = selectWeaponFromBag(player);
-                player.attack(enemy, );
+                player.attack(enemy, weapon);
             } else if (response == 4) {
-
+                consumePotionFromBag(player);
             }
+
+            if(response % 2 == 0){
+                enemy.attack(player, enemy.getWeapon());
+            }else{
+                enemy.attack(player);
+            }
+        }
+        if(player.isAlive()){
+            return BattleResult.WIN;
+        }else {
+            return BattleResult.LOSE;
         }
     }
 
     public static int runOrFight(){
-        Scanner sc = new Scanner(System.in);
         System.out.println("Select option :-");
         System.out.println("1. Fight with the enemy.");
         System.out.println("2. Run.");
@@ -81,7 +156,6 @@ public class Main {
     }
 
     public static Room printAndSelectRoom(List<Room> rooms){
-        Scanner sc = new Scanner(System.in);
         System.out.println("Here are the room details please select room in 0 based indexing.");
         rooms.forEach(room -> System.out.println(room.getName()));
         int roomIndex = sc.nextInt();
