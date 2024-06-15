@@ -35,6 +35,9 @@ public class Room {
     public void addEnemy(Enemy enemy){
         enemies.add(enemy);
     }
+    public void removeEnemy(Enemy enemy){
+        enemies.remove(enemy);
+    }
     public void addItem(Item item){
         items.add(item);
     }
@@ -48,8 +51,10 @@ public class Room {
     }
 
     public void printRoomElements(){
+        System.out.println("----------------------------------------------------");
         printCharacter();
         printItem();
+        System.out.println("----------------------------------------------------");
     }
 
     public void printCharacter() {
@@ -57,7 +62,7 @@ public class Room {
     }
 
     public void printItem() {
-        items.forEach((item) -> System.out.println("The item " + item.getName() + " in the room " + name));
+        items.forEach((item) -> System.out.println("The item " + item.getName() + " in the room " + name + " with index " + items.indexOf(item)));
     }
 
     public boolean isRoomEnemyDead(){
@@ -70,5 +75,13 @@ public class Room {
 
     public void setGuardian(Character guardian) {
         Guardian = guardian;
+    }
+
+    public List<Item> getItems() {
+        return items;
+    }
+
+    public void setItems(List<Item> items) {
+        this.items = items;
     }
 }
