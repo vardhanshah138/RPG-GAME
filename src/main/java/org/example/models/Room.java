@@ -61,4 +61,8 @@ public class Room {
     public void printItem() {
         items.forEach((item) -> System.out.println("The item " + item.getName() + " in the room " + name));
     }
+
+    public boolean isRoomEnemyDead(){
+        return !roomMembers.stream().anyMatch(character -> character.getClass().equals(Enemy.class) && character.isAlive());
+    }
 }
