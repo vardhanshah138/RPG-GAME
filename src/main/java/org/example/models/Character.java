@@ -25,6 +25,11 @@ public abstract class Character {
         }
     }
 
+    public void attack(Character character, Weapon weapon) {
+        System.out.println("The " + this.name + " attack on " + character.getName() + " with weapon " + weapon.getName());
+        character.reduceHealth(weapon.getDamage());
+    }
+
     public String getName() {
         return name;
     }

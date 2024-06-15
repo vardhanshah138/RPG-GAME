@@ -70,4 +70,14 @@ public class Player extends Character{
         System.out.println("--------------------------------");
     }
 
+    @Override
+    public void attack(Character character, Weapon weapon) {
+        if(this.bag.contains(weapon)){
+            System.out.println("The " + this.getName() + " attack on " + character.getName() + " with weapon " + weapon.getName());
+            character.reduceHealth(weapon.getDamage());
+        }else {
+            System.out.println("The weapon is not present in the bag.");
+        }
+    }
+
 }
