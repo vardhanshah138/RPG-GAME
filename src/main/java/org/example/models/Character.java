@@ -6,6 +6,7 @@ public abstract class Character {
     private int health;
     private boolean isAlive;
     private int fistPower;
+    private String introMessage;
 
     public Character(String name, int health) {
         this.name = name;
@@ -46,6 +47,15 @@ public abstract class Character {
     public void setHealth(int health) {
         this.health = health;
     }
+
+    public String getIntroMessage() {
+        return introMessage;
+    }
+
+    public void setIntroMessage(String introMessage) {
+        this.introMessage = introMessage;
+    }
+
 
     public void reduceHealth(int damage){//if we won't make it private then player can reduce health without attacking
         System.out.println("The " + name + " health has been reduced by " + damage);
