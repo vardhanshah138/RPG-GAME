@@ -66,7 +66,7 @@ public class Room {
     }
 
     public boolean isRoomEnemyDead(){
-        return !enemies.stream().anyMatch(character -> character.isAlive());
+        return enemies.stream().noneMatch(Character::isAlive);
     }
 
     public Character getGuardian() {

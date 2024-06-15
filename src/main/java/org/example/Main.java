@@ -2,6 +2,7 @@ package org.example;
 //retreive enemys from character list was an issue
 
 import org.example.models.*;
+import org.example.models.Character.Character;
 import org.example.models.Character.Enemy;
 import org.example.models.Character.Player;
 import org.example.models.Item.*;
@@ -22,15 +23,17 @@ public class Main {
             System.out.println("Select room to enter.");
             Room currRoom = printAndSelectRoom(rooms);
             currRoom.printRoomElements();
-
-            int attackResponse = runOrFight();
+            Boolean isCurrEnemyDead = currRoom.isRoomEnemyDead();
+            int attackResponse = runOrFight(isCurrEnemyDead);
             BattleResult battleResult = null;
             if(attackResponse == 2){//run
                 continue;
             } else if (attackResponse == 1) {
                 //battle.
-                Enemy enemy = currRoom.getEnemies().get(0);
-                battleResult= battle(vardhan, enemy);
+                if(!currRoom.isRoomEnemyDead()){
+                    Enemy enemy = currRoom.getEnemies().get(0);
+                    battleResult= battle(vardhan, enemy);
+                }
             }else {
                 break;
             }
@@ -41,8 +44,12 @@ public class Main {
             } else if (battleResult == BattleResult.WIN) {
                 currRoom.removeEnemy(currRoom.getEnemies().get(0));
                 System.out.println("The enemy is dead now");
-            }else {
+            }else if(battleResult == BattleResult.RUN) {
                 continue;
+            }
+            collectItemFromRoom(currRoom, vardhan);
+            if(currRoom.getGuardian() != null){
+                interactWithGuardianIfPresent(currRoom);
             }
 
         }
@@ -54,15 +61,20 @@ public class Main {
         }
     }
 
-    public static void interactWithGuardianIfPresent(){
-
+    public static void interactWithGuardianIfPresent(Room room){
+        System.out.println("Enter 1 to reveal hint for key");
+        int g = sc.nextInt();
+        if(g == 1){
+            Character guardian = room.getGuardian();
+            System.out.println(guardian.getIntroMessage());
+        }
     }
     public static void collectItemFromRoom(Room room, Player player) {
         room.printRoomElements();
         System.out.println("Please Enter index to pick item or -1 to leave room");
         int i = sc.nextInt();
 
-        while (i >= 0 && i < room.getItems().size()){
+        while (i>=0 && i < room.getItems().size()){
             Item item = room.getItems().get(i);
             if(item.getClass().equals(Poison.class)){
                 player.consumeDrink((Drink) item);
@@ -88,7 +100,7 @@ public class Main {
         if(w == -1){
             return;
         }
-        while (w >= 0 && w < bag.size()){
+        while (!(w >= 0 && w < bag.size())){
             System.out.println("Please enter correct index");
             w = sc.nextInt();
         }
@@ -99,21 +111,28 @@ public class Main {
 
     public static Weapon selectWeaponFromBag(Player player) {
         System.out.println("Select weapon from bag based on 0 index");
+        boolean weaponPresent = false;
         List<Item> bag = player.getBag();
         for(Item item : bag){
             if(item.getType().equals(ItemType.WEAPON)){
                 System.out.println(bag.indexOf(item) + item.getName());
+                weaponPresent = true;
             }
+        }
+        if (!weaponPresent){
+            return null;
         }
         System.out.println("Enter your response:-");
         int w = sc.nextInt();
-        while (w >=0 && w < bag.size()){
+        while (!(w >=0 && w < bag.size())){
             System.out.println("Please enter correct index");
             w = sc.nextInt();
         }
         return (Weapon) bag.get(w);
     }
     public static BattleResult battle(Player player, Enemy enemy){
+        System.out.println(player.getIntroMessage());
+        System.out.println(enemy.getIntroMessage());
         while (player.isAlive() && enemy.isAlive()){
             player.printCurrStats();
             System.out.println("1. Attack");
@@ -128,7 +147,11 @@ public class Main {
                 player.attack(enemy);
             }else if(response == 2) {
                 Weapon weapon = selectWeaponFromBag(player);
-                player.attack(enemy, weapon);
+                if(weapon == null){
+                    player.attack(enemy);
+                }else {
+                    player.attack(enemy, weapon);
+                }
             } else if (response == 4) {
                 consumePotionFromBag(player);
             }
@@ -146,13 +169,12 @@ public class Main {
         }
     }
 
-    public static int runOrFight(){
+    public static int runOrFight(Boolean isRoomEnemyDead){
         System.out.println("Select option :-");
-        System.out.println("1. Fight with the enemy.");
+        System.out.println(!isRoomEnemyDead ? "1. Fight with the enemy." : "Collect Item or interact");
         System.out.println("2. Run.");
         System.out.println("3. Quit");
-        int attackResponse = sc.nextInt();
-        return attackResponse;
+        return sc.nextInt();
     }
 
     public static Room printAndSelectRoom(List<Room> rooms){
@@ -169,7 +191,6 @@ public class Main {
     }
 
     public static List<Room> prepareRooms(){
-        List<Room> rooms = new ArrayList<>();
         //Weapon
         Bow bow = new Bow("bow", 10, 50);
         Sword sword = new Sword("Knife", 5);
@@ -192,6 +213,7 @@ public class Main {
         Enemy whiteWalker = new Enemy("White walker", 50, 5, "I stayed in Ice and king in the north afraid of me");
         Enemy alien = new Enemy("Alien", 50, 12, "I came from outer space and i have super weapons", enemyBow);
         Enemy akatsuki = new Enemy("Akatsuki", 50,15, "I am a rogue ninja and abaonded the village after killing the whole clan.",enemySword);
+        Character character = new Player("Advisor", 2,2,"The secerts are hidden at country end but beware of sand");
 
 
         Room city = new Room("City");
@@ -199,6 +221,7 @@ public class Main {
         city.addItem(medicine);
         city.addItem(gold);
         city.addEnemy(zombie);
+        city.setGuardian(character);
 
         Room desert = new Room("Dessert");
         desert.addItem(poison);
@@ -215,7 +238,6 @@ public class Main {
         village.addItem(trap);
         village.addEnemy(akatsuki);
 
-        rooms.addAll(List.of(city, desert, northIsland, village));
-        return rooms;
+        return new ArrayList<>(List.of(city, desert, northIsland, village));
     }
 }
