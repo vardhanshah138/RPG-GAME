@@ -1,6 +1,8 @@
-package org.example.models;
+package org.example.models.Item;
 
-public class Bow extends Weapon{
+import org.example.models.Item.Weapon;
+
+public class Bow extends Weapon {
     private int noOfArrows;
     public Bow(String name, int damage, int noOfArrows) {
         super(name, damage);

@@ -1,4 +1,6 @@
-package org.example.models;
+package org.example.models.Item;
+
+import org.example.models.Character.Character;
 
 public class Poison extends Drink{
     public Poison(String name, int power) {
@@ -6,7 +8,7 @@ public class Poison extends Drink{
     }
 
     @Override
-    void affectHealth(Character character) {
+    public void affectHealth(Character character) {
         System.out.println("The " + character.getName() + " is drinking poison");
         character.reduceHealth(power);
     }

@@ -1,9 +1,11 @@
-package org.example.models;
+package org.example.models.Item;
 
-public class Weapon extends Item{
+import org.example.models.Item.Item;
+
+public class Weapon extends Item {
     private int damage;
     public Weapon(String name, int damage) {
-        super(name);
+        super(name, ItemType.WEAPON);
         this.damage = damage;
     }
 

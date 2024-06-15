@@ -1,6 +1,10 @@
 package org.example;
+//retreive enemys from character list was an issue
 
 import org.example.models.*;
+import org.example.models.Character.Enemy;
+import org.example.models.Character.Player;
+import org.example.models.Item.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -9,15 +13,71 @@ import java.util.Scanner;
 public class Main {
     public static void main(String[] args) {
 
+        Scanner sc =new Scanner(System.in);
         Player vardhan = new Player("Vardhan",100, 5, "I am Vardhan Shah from Surat great fighter and coder.");
-
         //Room initalization
         List<Room> rooms = prepareRooms();
-        System.out.println("Select room to enter.");
-        Room currRoom = printAndSelectRoom(rooms);
-        currRoom.printRoomElements();
 
+        while (vardhan.isAlive()){
+            System.out.println("Select room to enter.");
+            Room currRoom = printAndSelectRoom(rooms);
+            currRoom.printRoomElements();
 
+            int attackResponse = runOrFight();
+
+            if(attackResponse == 1){//run
+                //continue
+            } else if (attackResponse == 2) {
+                //battle.
+                Enemy enemy = currRoom.getEnemies().get(0);
+
+            }else {
+                //quit
+            }
+
+        }
+    }
+
+    public static Weapon selectWeaponFromBag(Player player) {
+        List<Item> bag = player.getBag();
+        for(Item item : bag){
+            if(item.getType().equals(ItemType.WEAPON)){
+                return (Weapon) item;
+            }
+        }
+        return null;
+    }
+    public static BattleResult battle(Player player, Enemy enemy){
+        Scanner sc = new Scanner(System.in);
+        while (player.isAlive() && enemy.isAlive()){
+            player.printCurrStats();
+            System.out.println("1. Attack");
+            System.out.println("2. Attack with weapon");
+            System.out.println("3. Run");
+            System.out.println("4. Drink Potion");
+            int response = sc.nextInt();
+
+            if(response == 3){
+                return BattleResult.RUN;
+            } else if (response == 2) {
+                player.attack(enemy);
+            }else if(response == 1) {
+                Weapon weapon = selectWeaponFromBag(player);
+                player.attack(enemy, );
+            } else if (response == 4) {
+
+            }
+        }
+    }
+
+    public static int runOrFight(){
+        Scanner sc = new Scanner(System.in);
+        System.out.println("Select option :-");
+        System.out.println("1. Fight with the enemy.");
+        System.out.println("2. Run.");
+        System.out.println("3. Quit");
+        int attackResponse = sc.nextInt();
+        return attackResponse;
     }
 
     public static Room printAndSelectRoom(List<Room> rooms){

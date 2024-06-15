@@ -1,9 +1,14 @@
-package org.example.models;
+package org.example.models.Character;
+
+import org.example.models.Character.Character;
+import org.example.models.Item.Drink;
+import org.example.models.Item.Item;
+import org.example.models.Item.Weapon;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class Player extends Character{
+public class Player extends Character {
     private int experiencePoints;
     private List<Item> bag;
     private final int bagCapacity = 5;
@@ -68,6 +73,10 @@ public class Player extends Character{
         System.out.println("is Alive : " + isAlive());
         System.out.println("xp points : " + experiencePoints);
         System.out.println("--------------------------------");
+    }
+
+    public List<Item> getBag() {
+        return bag;
     }
 
     @Override

@@ -1,6 +1,9 @@
-package org.example.models;
+package org.example.models.Character;
 
-public class Enemy extends Character{
+import org.example.models.Character.Character;
+import org.example.models.Item.Weapon;
+
+public class Enemy extends Character {
     private Weapon weapon;
     public Enemy(String name, int health, int fistPower, String message) {
         super(name, health, fistPower, message);

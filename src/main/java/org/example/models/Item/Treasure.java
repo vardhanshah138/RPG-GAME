@@ -1,9 +1,11 @@
-package org.example.models;
+package org.example.models.Item;
 
-public class Treasure extends Item{
+import org.example.models.Item.Item;
+
+public class Treasure extends Item {
     int points;
     public Treasure(String name, int points) {
-        super(name);
+        super(name, ItemType.OTHER);
         this.points = points;
     }
     public int getPoints() {

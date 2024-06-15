@@ -1,18 +1,27 @@
 package org.example.models;
 
+import org.example.models.Character.Character;
+import org.example.models.Character.Enemy;
+import org.example.models.Item.Item;
+
 import java.util.ArrayList;
 import java.util.List;
 
 public class Room {
 
     private String name;
-    private List<Character> roomMembers;
+    private List<Enemy> enemies;
+    private Character Guardian;
     private List <Item> items;
 
     public Room(String name) {
         this.name = name;
-        this.roomMembers = new ArrayList<>();
+        this.enemies = new ArrayList<>();
         this.items = new ArrayList<>();
+    }
+
+    public List<Enemy> getEnemies() {
+        return enemies;
     }
 
     public String getName() {
@@ -23,16 +32,8 @@ public class Room {
         this.name = name;
     }
 
-    public List<Character> getRoomMembers() {
-        return roomMembers;
-    }
-
-    public void setRoomMembers(List<Character> roomMembers) {
-        this.roomMembers = roomMembers;
-    }
-
     public void addEnemy(Enemy enemy){
-        roomMembers.add(enemy);
+        enemies.add(enemy);
     }
     public void addItem(Item item){
         items.add(item);
@@ -52,7 +53,7 @@ public class Room {
     }
 
     public void printCharacter() {
-        roomMembers.forEach((character) -> System.out.println("The character " + character.getName() + " in the room " + name));
+        enemies.forEach((character) -> System.out.println("The character " + character.getName() + " in the room " + name));
     }
 
     public void printItem() {
@@ -60,6 +61,14 @@ public class Room {
     }
 
     public boolean isRoomEnemyDead(){
-        return !roomMembers.stream().anyMatch(character -> character.getClass().equals(Enemy.class) && character.isAlive());
+        return !enemies.stream().anyMatch(character -> character.isAlive());
+    }
+
+    public Character getGuardian() {
+        return Guardian;
+    }
+
+    public void setGuardian(Character guardian) {
+        Guardian = guardian;
     }
 }

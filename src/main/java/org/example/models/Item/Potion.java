@@ -1,4 +1,6 @@
-package org.example.models;
+package org.example.models.Item;
+
+import org.example.models.Character.Character;
 
 public class Potion extends Drink{
 

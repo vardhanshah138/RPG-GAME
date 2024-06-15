@@ -1,4 +1,6 @@
-package org.example.models;
+package org.example.models.Character;
+
+import org.example.models.Item.Weapon;
 
 public abstract class Character {
 
