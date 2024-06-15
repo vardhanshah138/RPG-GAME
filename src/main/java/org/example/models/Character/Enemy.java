@@ -7,6 +7,7 @@ public class Enemy extends Character {
     private Weapon weapon;
     public Enemy(String name, int health, int fistPower, String message) {
         super(name, health, fistPower, message);
+        this.weapon = new Weapon("Fist", fistPower);
     }
 
     public Enemy(String name, int health, int fistPower, String message, Weapon weapon) {
