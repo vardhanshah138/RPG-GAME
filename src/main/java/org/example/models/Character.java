@@ -7,18 +7,11 @@ public abstract class Character {
     private boolean isAlive;
     private int fistPower;
     private String introMessage;
-
-    public Character(String name, int health) {
-        this.name = name;
-        this.health = health;
-        this.fistPower = 10;
-        this.isAlive = true;
-    }
-
-    public Character(String name, int health, int fistPower) {
+    public Character(String name, int health, int fistPower, String introMessage) {
         this.name = name;
         this.health = health;
         this.fistPower = fistPower;
+        this.introMessage = introMessage;
         this.isAlive = true;
     }
 

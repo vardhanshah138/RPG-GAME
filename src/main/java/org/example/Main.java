@@ -12,14 +12,14 @@ public class Main {
         System.out.printf("Hello and welcome!");
         Scanner sc = new Scanner(System.in);
 
-        Enemy zombie = new Enemy("Zombie", 50);
-        Enemy whiteWalker = new Enemy("White walker", 50);
-        Enemy alien = new Enemy("Alien", 50);
-        Enemy akatsuki = new Enemy("Akatsuki", 50);
+        Enemy zombie = new Enemy("Zombie", 50,3, "I am a brain dead Zombie I will eat you alive and make you zombie");
+        Enemy whiteWalker = new Enemy("White walker", 50, 5, "I stayed in Ice and king in the north afraids of me");
+        Enemy alien = new Enemy("Alien", 50, 12, "I came from outer space and i have super weapons");
+        Enemy akatsuki = new Enemy("Akatsuki", 50,15, "I am a rogue ninja and abaonded the village after killing the whole clan.");
 
         Room room = new Room("City");
         room.addEnemy(zombie);
-        Player vardhan = new Player("Vardhan",100);
+        Player vardhan = new Player("Vardhan",100, 5, "I am Vardhan Shah from Surat great fighter and coder.");
 
         while(vardhan.isAlive() && zombie.isAlive()){
             System.out.println("Press 1 to attack.");

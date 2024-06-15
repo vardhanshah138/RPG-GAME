@@ -8,8 +8,8 @@ public class Player extends Character{
     private List<Item> bag;
     private final int bagCapacity = 5;
     private int currRoom;
-    public Player(String name, int health) {
-        super(name, health);
+    public Player(String name, int health, int fistPower, String message) {
+        super(name, health, fistPower, message);
         this.experiencePoints = 0;
         this.bag = new ArrayList<>();
     }
